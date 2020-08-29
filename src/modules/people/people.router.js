@@ -37,6 +37,7 @@ router.post('/', json, async (req, res) => {
 router.delete('/', async (req, res) => {
 	try {
 		const deleted = await People.dequeue()
+		const next = await People.enqueue('Next Person')
 		if (!deleted) {
 			return res.status(400).send({ error: `Empty List` })
 		}
