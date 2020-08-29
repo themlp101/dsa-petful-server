@@ -6,31 +6,43 @@ const People = require('./people.service')
 const router = express.Router()
 
 router.get('/', async (req, res) => {
-	// Return all the people currently in the queue.
-	const people = await People.get()
-	res.json(people)
-})
+	try {
+		// Return all the people currently in the queue.
+		const people = await People.get()
 
-router.post('/', json, (req, res) => {
-	// Add a new person to the queue.
-	const { person } = req.body
-	if (!person) {
-		res.send({ error: 'Invalid' })
+		if (!people) {
+			return res.status(400).send({ error: 'Empty List' })
+		}
+		res.json(people)
+	} catch (error) {
+		console.log(error)
 	}
-	People.enqueue(person)
-	res.sendStatus(201)
 })
 
-router.delete('/', async (req, res, next) => {
+router.post('/', json, async (req, res) => {
+	try {
+		const { person } = req.body
+		if (!person) {
+			return res.status(400).send({ error: 'Invalid' })
+		}
+		const data = await People.enqueue(person)
+
+		res.status(201).json(data.data)
+	} catch (error) {
+		console.log(error)
+	}
+	// Add a new person to the queue.
+})
+
+router.delete('/', async (req, res) => {
 	try {
 		const deleted = await People.dequeue()
 		if (!deleted) {
-			res.send('Empty')
+			return res.status(400).send({ error: `Empty List` })
 		}
-
-		res.sendStatus(204)
+		res.status(204).end()
 	} catch (error) {
-		next(error)
+		console.log(error)
 	}
 })
 

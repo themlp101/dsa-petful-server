@@ -4,7 +4,7 @@ const store = require('../../store')
 // Set up initial data.
 // --------------------
 
-const people = new Queue()
+let people = new Queue()
 store.people.forEach((person) => people.enqueue(person))
 
 // --------------------
@@ -17,7 +17,8 @@ module.exports = {
 
 	enqueue(person) {
 		// Add a person to the queue.
-		people.enqueue(person)
+
+		return people.enqueue(person)
 	},
 
 	dequeue() {

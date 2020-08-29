@@ -23,6 +23,7 @@ class Queue {
 			this.last.next = node
 			this.last = node
 		}
+		return node
 	}
 
 	dequeue() {
@@ -45,7 +46,6 @@ class Queue {
 
 	all() {
 		// Return all items in the queue.
-		if (!this.first) return null
 		let temp = this.first
 		let list = []
 		while (temp) {

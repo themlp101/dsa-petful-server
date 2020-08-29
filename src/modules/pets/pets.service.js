@@ -19,8 +19,12 @@ module.exports = {
 		// Return the pets next in line to be adopted.
 		if (pets.cats && pets.dogs) {
 			return {
-				'Next Cat': pets.cats.first.data,
-				'Next Dog': pets.dogs.first.data,
+				'Next Cat': pets.cats.first
+					? pets.cats.first.data
+					: null,
+				'Next Dog': pets.dogs.first
+					? pets.dogs.first.data
+					: null,
 			}
 		} else {
 			return null

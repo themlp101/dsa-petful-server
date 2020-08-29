@@ -6,53 +6,47 @@ const People = require('../people/people.service')
 
 const router = express.Router()
 
-router.get('/dog', async (req, res, next) => {
+router.get('/dog', async (req, res) => {
 	// Return all pets currently up for adoption.
 	try {
 		const nextDog = await Pets.get()['Next Dog']
 		if (!nextDog) {
-			res.send({ error: 'No dogs found' })
+			return res.status(400).send({ error: 'No dogs found' })
 		}
 		res.json(nextDog)
 	} catch (error) {
-		next(error)
+		console.log(error)
 	}
 })
 
 router.delete('/dog', json, async (req, res) => {
 	// Remove a pet from adoption.
 	try {
-		const data = await Pets.dequeue('dogs')
-		if (!data) {
-			res.send({ error: 'Invalid' }).status(400)
-		}
+		await Pets.dequeue('dogs')
 
-		res.json(data)
+		res.sendStatus(204)
 	} catch (error) {
 		console.log(error)
 	}
 })
 
-router.get('/cat', async (req, res, next) => {
+router.get('/cat', async (req, res) => {
 	try {
 		const nextCat = await Pets.get()['Next Cat']
 		if (!nextCat) {
-			res.send({ error: 'No cats found' })
+			return res.status(400).send({ error: 'No cats found' })
 		}
 		res.json(nextCat)
 	} catch (error) {
-		next(error)
+		console.log(error)
 	}
 })
 router.delete('/cat', json, async (req, res) => {
 	//
 	try {
-		const data = await Pets.dequeue('cats')
-		if (!data) {
-			res.send({ error: 'Invalid' }).status(400)
-		}
+		await Pets.dequeue('cats')
 
-		res.json(data)
+		res.sendStatus(204)
 	} catch (error) {
 		console.log(error)
 	}
