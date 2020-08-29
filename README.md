@@ -11,7 +11,10 @@ The app is a demo for a queue stack data structure. When the compoments mount, a
 
 ![Petful](./public/images/petful.png)
 
+[Client Repo](https://github.com/themlp101/dsa-petful-client)
+
 ### Tech
+
 
 ---
 - Tech
