@@ -19,9 +19,18 @@ router.get('/dog', async (req, res, next) => {
 	}
 })
 
-router.delete('/dog', json, (req, res) => {
+router.delete('/dog', json, async (req, res) => {
 	// Remove a pet from adoption.
-	res.json(Pets.dequeue('dogs'))
+	try {
+		const data = await Pets.dequeue('dogs')
+		if (!data) {
+			res.send({ error: 'Invalid' }).status(400)
+		}
+
+		res.json(data)
+	} catch (error) {
+		console.log(error)
+	}
 })
 
 router.get('/cat', async (req, res, next) => {
@@ -35,9 +44,18 @@ router.get('/cat', async (req, res, next) => {
 		next(error)
 	}
 })
-router.delete('/cat', json, (req, res) => {
+router.delete('/cat', json, async (req, res) => {
 	//
-	res.json(Pets.dequeue('cats'))
+	try {
+		const data = await Pets.dequeue('cats')
+		if (!data) {
+			res.send({ error: 'Invalid' }).status(400)
+		}
+
+		res.json(data)
+	} catch (error) {
+		console.log(error)
+	}
 })
 
 module.exports = router
